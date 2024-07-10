@@ -1,0 +1,773 @@
+<script>
+  //Hàm nhân viên
+  var count = 1;
+    var itemId = "";
+    function getItem(id) {
+        itemId = id;
+        var item = ThongTinNS.find(obj => obj.STT === id);
+        document.getElementById('hoTenNV1').value = item.hoTen;
+        document.getElementById('emailNV1').value = item.email;
+        document.getElementById('gioiTinhNV1').value = item.gioiTinh;
+        document.getElementById('nghiepVuNV1').value = item.nghiepVu;
+        document.getElementById('diaChiNV1').value = item.diaChi;
+    }
+    function renderNhanVien() {
+        var listNhanVienBlock = document.querySelector('#list-nhanVien');
+        var htmls = ThongTinNS.map(function (nhanVien) {
+            count++;
+            return `
+                <tr class="item-${nhanVien.STT}">
+                    <th scope="row">${nhanVien.STT}</th>
+                    <td>${nhanVien.hoTen}</td>
+                    <td>${nhanVien.email}</td>
+                    <td>${nhanVien.gioiTinh}</td>
+                    <td>${nhanVien.nghiepVu}</td>
+                    <td>${nhanVien.diaChi}</td>
+
+                    <td><span onclick="getItem(${nhanVien.STT})" class="btn btn-outline-success btn1" data-bs-toggle="modal"
+                            data-bs-target="#suaNhanVien">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-pencil-square"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                                />
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                                />
+                              </svg>
+                            </span> 
+                        <span onclick="getItem(${nhanVien.STT})" class="btn btn-outline-danger btn1" data-bs-toggle="modal"
+                            data-bs-target="#xoaNhanVien">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-trash3-fill"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"
+                                />
+                              </svg>
+                            </span>
+                    </td>
+                </tr>
+            `;
+        });
+        console.log(htmls);
+        listNhanVienBlock.innerHTML = htmls.join('');
+    }
+    // hienThi();
+    renderNhanVien();
+    function addNhanVien() {
+        var ds = document.querySelector('#list-nhanVien');
+        var item = {
+            STT: count,
+            hoTen: document.getElementById('hoTenNV').value,
+            email: document.getElementById('emailNV').value,
+            gioiTinh: document.getElementById('gioiTinhNV').value,
+            nghiepVu: document.getElementById('nghiepVuNV').value,
+            diaChi: document.getElementById('diaChiNV').value
+        };
+        console.log(item);
+        ThongTinNS.push(item);
+        //chèn vào sau thì thay beforeend bằng afterbegin
+        ds.insertAdjacentHTML('beforeend', `
+        <tr class="item-${item.STT}">
+            <th scope="row">${item.STT}</th>
+            <td>${item.hoTen}</td>
+            <td>${item.email}</td>
+            <td>${item.gioiTinh}</td>
+            <td>${item.nghiepVu}</td>
+            <td>${item.diaChi}</td>
+            <td>
+                <span onclick="getItem(${item.STT})" class="btn btn-outline-success btn1" data-bs-toggle="modal"
+                            data-bs-target="#suaNhanVien">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-pencil-square"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                                />
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                                />
+                              </svg>
+                            </span>
+                <span onclick="getItem(${item.STT})" class="btn btn-outline-danger btn1" data-bs-toggle="modal"
+                            data-bs-target="#xoaNhanVien">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-trash3-fill"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"
+                                />
+                              </svg>
+                            </span>
+            </td>
+        </tr>
+        `);
+        count++;
+    }
+    function deleteNhanVien(id) {
+      ThongTinNS = ThongTinNS.filter(function (nhanVien) {
+            return nhanVien.STT !== id;
+        });
+        var NhanVienItem = document.querySelector('.item-' + id);
+        if (NhanVienItem) {
+          NhanVienItem.remove();
+        }
+    }
+    function editNhanVien(id) {
+        var item = ThongTinNS.find(obj => obj.STT === id);
+        item.hoTen = document.getElementById('hoTenNV1').value;
+        item.email = document.getElementById('emailNV1').value;
+        item.gioiTinh = document.getElementById('gioiTinhNV1').value;
+        item.nghiepVu = document.getElementById('nghiepVuNV1').value;
+        item.diaChi = document.getElementById('diaChiNV1').value;
+        console.log(item.hoTen);
+        console.log(item.email);
+        console.log(item.gioiTinh);
+        console.log(item.nghiepVu);
+        console.log(item.diaChi);
+        var newRowHTML = `
+            <tr class="item-${item.STT}">
+                <th scope="row"><a href="#">${item.STT}</a></th>
+                <td>${item.hoTen}</td>
+                <td>${item.email}</td>
+                <td>${item.gioiTinh}</td>
+                <td>${item.nghiepVu}</td>
+                <td>${item.diaChi}</td>
+                <td>
+                    <span onclick="getItem(${item.STT})" class="btn btn-outline-success btn1" data-bs-toggle="modal"
+                        data-bs-target="#suaNhanVien">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-pencil-square"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                                />
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                                />
+                              </svg>
+                        </span> 
+                    <span onclick="getItem(${item.STT})" class="btn btn-outline-danger btn1" data-bs-toggle="modal"
+                        data-bs-target="#xoaNhanVien">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-trash3-fill"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"
+                                />
+                              </svg>
+                        </span>
+                </td>
+            </tr>
+        `;
+
+        // Thay thế nội dung của thẻ tr cũ bằng chuỗi HTML mới
+        $('.item-' + id).replaceWith(newRowHTML);
+    }
+
+    //Hàm nhân viên nghỉ bù
+    var itemNB = "";
+    function getItemIDNB(idNB) {
+        itemNB = idNB;
+    }
+    function renderNghiBu() {
+        var listNghiBuBlock = document.querySelector('#list-nghiBu');
+        var htmls = NhanSuNghiBu.map(function (nghiBu) {
+            return `
+                    <tr class="item-${nghiBu.STTNB}">
+                        <td>${nghiBu.STTNB}</th>
+                        <td>${nghiBu.hoTen}</td>
+                        <td>${nghiBu.ngayBatDau}</td>
+                        <td>${nghiBu.ngayKetThuc}</td>
+                        <td class="d-flex"><span onclick="getItemIDNB('${nghiBu.STTNB}')" class="btn btn-outline-success btn1" data-bs-toggle="modal"
+                            data-bs-target="#duyetNghiBu"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                              <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                            </svg>
+                          </span> 
+                        <span onclick="getItemIDNB('${nghiBu.STTNB}')" class="btn btn-outline-danger btn1" data-bs-toggle="modal"
+                            data-bs-target="#huyNghiBu">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                            </svg>
+                        </span>
+                    </td>
+                    </tr>
+                `;
+        });
+        console.log(htmls);
+        listNghiBuBlock.innerHTML = htmls.join('');
+    }
+    // hienThi();
+    renderNghiBu();
+
+    function checkNghiBu(idNB) {
+      NhanSuNghiBu = NhanSuNghiBu.filter(function (nghiBu) {
+            return nghiBu.STTNB !== idNB;
+        });
+        var NghiBuItem = document.querySelector('.item-' + idNB);
+        if (NghiBuItem) {
+          NghiBuItem.remove();
+        }
+    }
+    function deleteNghiBu(idNB) {
+      NhanSuNghiBu = NhanSuNghiBu.filter(function (nghiBu) {
+            return nghiBu.STTNB !== idNB;
+        });
+        var NghiBuItem = document.querySelector('.item-' + idNB);
+        if (NghiBuItem) {
+          NghiBuItem.remove();
+        }
+    }
+
+
+    //Hàm nhân viên tăng ca
+    var itemTC = "";
+    function getItemIDTC(idTC) {
+        itemTC = idTC;
+    }
+    function renderTangCa() {
+        var listTangCaBlock = document.querySelector('#list-tangCa');
+        var htmls = NhanSuTangCa.map(function (tangCa) {
+            return `
+                    <tr class="item-${tangCa.STT}">
+                        <td>${tangCa.STTTC}</th>
+                        <td>${tangCa.hoTen}</td>
+                        <td>${tangCa.ngayBatDau}</td>
+                        <td>${tangCa.ngayKetThuc}</td>
+                        <td class="d-flex"><span onclick="getItemIDTC('${tangCa.STTTC}')" class="btn btn-outline-success btn1" data-bs-toggle="modal"
+                            data-bs-target="#duyetTangCa"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                              <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                            </svg>
+                          </span> 
+                        <span onclick="getItemIDTC('${tangCa.STTTC}')" class="btn btn-outline-danger btn1" data-bs-toggle="modal"
+                            data-bs-target="#huyTangCa">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                            </svg>
+                        </span>
+                    </td>
+                    </tr>
+                `;
+        });
+        console.log(htmls);
+        listTangCaBlock.innerHTML = htmls.join('');
+    }
+    // hienThi();
+    renderTangCa();
+
+    function checkTangCa(idTC) {
+      NhanSuTangCa = NhanSuTangCa.filter(function (tangCa) {
+            return tangCa.STTTC !== idTC;
+        });
+        var TangCaItem = document.querySelector('.item-' + idTC);
+        if (TangCaItem) {
+          TangCaItem.remove();
+        }
+    }
+    function deleteTangCa(idTC) {
+      NhanSuTangCa = NhanSuTangCa.filter(function (tangCa) {
+            return tangCa.STTTC !== idTC;
+        });
+        var TangCaItem = document.querySelector('.item-' + idTC);
+        if (TangCaItem) {
+          TangCaItem.remove();
+        }
+    }
+</script>
+  <body>
+    <main id="main" class="main container-fluid">
+      <!-- Start Page Title -->
+      <div class="pagetitle mt-3">
+        <h1>Quản lý chi tiết thông tin nhân sự</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="main.html" class="text-decoration-none">Trang chủ</a>
+            </li>
+            <li class="breadcrumb-item active">Cổng thông tin nhân viên</li>
+            <li class="breadcrumb-item active">Quản lý thông tin nhân sự</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+
+      <section class="section dashboard">
+        <div class="row">
+          <!-- Left side columns -->
+          <!-- <div class="col-lg-9"> -->
+          <div class="row">
+            <!-- Recent Sales -->
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+                <div class="card-body">
+                  <div class="pagetitle m-2">
+                    <h1>Thông tin nhân sự</h1>
+                  </div>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary mb-1 mt-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#themNhanVien"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-cloud-plus-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2m.5 4v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0"
+                      />
+                    </svg>
+                    Thêm nhân viên
+                  </button>
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">HỌ TÊN NV</th>
+                        <th scope="col">EMAIL</th>
+                        <th scope="col">GIỚI TÍNH</th>
+                        <th scope="col">NGHIỆP VỤ</th>
+                        <th scope="col">ĐỊA CHỈ</th>
+                        <th scope="col">HOẠT ĐỘNG</th>
+                      </tr>
+                    </thead>
+                    <tbody id="list-nhanVien">
+                    </tbody>
+                  </table>
+                  <div class="pagetitle m-2">
+                    <h1>Xét duyệt nghỉ bù, tăng ca</h1>
+                  </div>
+                  <div class="container mt-3">
+                    <form class="row g-3">
+                      <div class="col-md-6">
+                        <div class="pagetitle">
+                            <h2>NGHỈ BÙ</h2>
+                        </div>
+                        <table class="table table-borderless">
+                          <thead>
+                            <tr>
+                              <th scope="col">STT</th>
+                              <th scope="col">HỌ TÊN NV</th>
+                              <th scope="col">NGÀY BẮT ĐẦU</th>
+                              <th scope="col">NGÀY KẾT THÚC</th>
+                              <th scope="col">HOẠT ĐỘNG</th>
+                            </tr>
+                          </thead>
+                          <tbody id="list-nghiBu">
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="pagetitle">
+                            <h2>TĂNG CA</h2>
+                        </div>
+                        <table class="table table-borderless">
+                          <thead>
+                            <tr>
+                              <th scope="col">STT</th>
+                              <th scope="col">HỌ TÊN NV</th>
+                              <th scope="col">NGÀY BẮT ĐẦU</th>
+                              <th scope="col">NGÀY KẾT THÚC</th>
+                              <th scope="col">HOẠT ĐỘNG</th>
+                            </tr>
+                          </thead>
+                          <tbody id="list-tangCa">
+                          </tbody>
+                        </table>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Recent Sales -->
+
+            <!-- </div> -->
+          </div>
+          <!-- End Left side columns -->
+          
+        </div>
+        <!-- The Modal thêm ứng viên tuyển dụng -->
+      <div class="modal fade pt-5" id="themNhanVien" data-backdrop="false" 
+      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 1100px;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Thêm ứng viên mới</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="hoTenNV" class="sr-only">Họ tên</label>
+                  <input type="text" class="form-control" id="hoTenNV">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="emailNV" class="sr-only">Email</label>
+                  <input type="text" class="form-control" id="emailNV">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="gioiTinhNV" class="sr-only">Giới tính</label>
+                  <input type="text" class="form-control" id="gioiTinhNV">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="nghiepVuNV" class="sr-only">Nghiệp vụ</label>
+                  <input type="text" class="form-control" id="nghiepVuNV">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="diaChiNV" class="sr-only">Địa chỉ</label>
+                  <input type="text" class="form-control" id="diaChiNV">
+                </div>
+              </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+                onclick="addNhanVien()"
+              >
+                Thêm
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Đóng
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- End modal thêm nhân viên  -->
+
+      <!-- The Modal sửa ứng viên tuyển dụng -->
+      <div class="modal" id="suaNhanVien" data-backdrop="false" 
+      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 1100px;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Chỉnh sửa nhân viên</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="hoTenNV1" class="sr-only">Họ tên</label>
+                  <input type="text" class="form-control" id="hoTenNV1">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="emailNV1" class="sr-only">Email</label>
+                  <input type="text" class="form-control" id="emailNV1">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="gioiTinhNV1" class="sr-only">Giới tính</label>
+                  <input type="text" class="form-control" id="gioiTinhNV1">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="nghiepVuNV1" class="sr-only">Nghiệp vụ</label>
+                  <input type="text" class="form-control" id="nghiepVuNV1">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="diaChiNV1" class="sr-only">Địa chỉ</label>
+                  <input type="text" class="form-control" id="diaChiNV1">
+                </div>
+              </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                onclick="editNhanVien(itemId)"
+                type="button"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+              >
+                Cập nhật
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Hủy
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End modal sửa nhân viên -->
+
+
+       <!-- The Modal xóa nhân viên -->
+       <div class="modal" id="xoaNhanVien" data-backdrop="false" 
+       style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 1100px;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Xóa</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              Bạn có chắc chắn muốn xóa dữ liệu này?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+                onclick="deleteNhanVien(itemId)"
+              >
+                Xóa
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Hủy
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- End modal xóa nhân viên -->
+
+
+       <!-- The Modal duyệt nghỉ bù -->
+       <div class="modal" id="duyetNghiBu" data-backdrop="false" 
+       style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 1100px;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Duyệt nghỉ bù</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              Xác nhận duyệt nghỉ bù nhân viên này?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+                onclick="checkNghiBu(itemNB)"
+              >
+                Duyệt
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Hủy
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- End modal duyệt nghỉ bù -->
+
+      <!-- The Modal hủy nghỉ bù -->
+      <div class="modal" id="huyNghiBu" data-backdrop="false" 
+      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 1100px;">
+       <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+
+           <!-- Modal Header -->
+           <div class="modal-header">
+             <h4 class="modal-title">Hủy nghỉ bù</h4>
+             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+           </div>
+
+           <!-- Modal body -->
+           <div class="modal-body">
+             Xác nhận hủy nghỉ bù nhân viên này?
+           </div>
+
+           <!-- Modal footer -->
+           <div class="modal-footer">
+             <button
+               type="button"
+               class="btn btn-success"
+               data-bs-dismiss="modal"
+               onclick="deleteNghiBu(itemNB)"
+             >
+               Hủy
+             </button>
+             <button
+               type="button"
+               class="btn btn-danger"
+               data-bs-dismiss="modal"
+             >
+               Đóng
+             </button>
+           </div>
+
+         </div>
+       </div>
+     </div>
+     <!-- End modal hủy nghỉ bù -->
+
+     
+
+       <!-- The Modal duyệt tăng ca -->
+       <div class="modal" id="duyetTangCa" data-backdrop="false" 
+       style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 1100px;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Duyệt tăng ca</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              Xác nhận duyệt tăng ca nhân viên này?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+                onclick="checkTangCa(itemTC)"
+              >
+                Duyệt
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Hủy
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- End modal duyệt tăng ca -->
+
+       <!-- The Modal hủy tăng ca -->
+       <div class="modal" id="huyTangCa" data-backdrop="false" 
+       style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 1100px;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Hủy tăng ca</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              Xác nhận hủy tăng ca nhân viên này?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+                onclick="deleteTangCa(itemTC)"
+              >
+                Hủy
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Đóng
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- End modal hủy tăng ca -->
+      </section>
+    </main>
+    <!-- End #main -->
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+      <div class="credits">Designed by <a href="#">Tam Đa</a></div>
+    </footer>
+  </body>
